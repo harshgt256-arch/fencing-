@@ -292,7 +292,16 @@ function drawFrame(
   const iw = image.naturalWidth || 1920;
   const ih = image.naturalHeight || 1080;
 
-  const scale = Math.max(cw / iw, ch / ih);
+  // Clear canvas
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, cw, ch);
+
+  // On portrait screens (phones), fit 100% full-width edge-to-edge (contain)
+  // so the entire 16:9 landscape video is visible without cropping the sides.
+  // On landscape/desktop screens (cw >= ch), fill screen with cinematic cover.
+  const isPortrait = ch > cw;
+  const scale = isPortrait ? cw / iw : Math.max(cw / iw, ch / ih);
+
   const dw = Math.round(iw * scale);
   const dh = Math.round(ih * scale);
   const dx = Math.round((cw - dw) / 2);
