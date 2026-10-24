@@ -1,0 +1,180 @@
+/* ===== Section shell ===== */
+/* Sits directly after the dark Before/After slider, so it shares that
+   palette but steps a touch darker for subtle contrast between sections. */
+.section {
+  --ink: #14181a;
+  --ink-soft: #9ba6a8;
+  --panel: #141a1d;
+  --line: rgba(255, 255, 255, 0.08);
+  --mint: #8ce2bd;
+  --accent: #1d5c40;
+  --accent-hover: #26714f;
+  --radius: 14px;
+  background: #0b0e10;
+  color: #ededed;
+}
+
+.inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 4vw, 3rem)
+    clamp(3rem, 6vw, 5rem);
+}
+
+/* ===== Header ===== */
+.header {
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+  margin-bottom: 0.9rem;
+}
+
+.heading {
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.9rem;
+}
+
+.intro {
+  font-size: clamp(1.02rem, 1.4vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ===== Benefit grid ===== */
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4rem;
+  margin: 0;
+  padding: 0;
+}
+
+.cardItem {
+  min-width: 0;
+}
+
+.card {
+  height: 100%;
+  padding: 1.9rem 1.7rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(140, 226, 189, 0.35);
+  transform: translateY(-2px);
+}
+
+.iconChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  color: var(--mint);
+  background: rgba(140, 226, 189, 0.09);
+  border: 1px solid rgba(140, 226, 189, 0.18);
+  margin-bottom: 1.1rem;
+}
+
+.cardHeading {
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin: 0 0 0.55rem;
+}
+
+.cardDescription {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ===== Closing CTA ===== */
+.closing {
+  max-width: 640px;
+  margin: 3.2rem auto 0;
+  text-align: center;
+}
+
+.closingText {
+  font-size: clamp(1.02rem, 1.4vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0 0 1.8rem;
+}
+
+.cta {
+  display: inline-block;
+  padding: 0.95rem 2rem;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 999px;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.cta:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.5rem 1.35rem;
+  }
+
+  .cta {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cardItem {
+    transition: none;
+  }
+
+  .cta {
+    transition: none;
+  }
+}

@@ -1,0 +1,30 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #000000;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.loadBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.loadFill {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  transform-origin: left center;
+}

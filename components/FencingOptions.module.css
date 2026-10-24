@@ -1,0 +1,393 @@
+/* ===== Section shell ===== */
+.section {
+  --ink: #14181a;
+  --ink-soft: #4b5559;
+  --paper: #fbfaf7;
+  --line: #e4e2da;
+  --accent: #1d5c40;
+  --accent-ink: #0f3a27;
+  --estimate: #8a6a1b;
+  --radius: 16px;
+  scroll-margin-top: 2rem;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
+}
+
+/* ===== Header ===== */
+.heading {
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  max-width: 22ch;
+}
+
+.intro {
+  font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 68ch;
+}
+
+/* ===== Filters ===== */
+.filterBar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin: 3rem 0 0.75rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #ffffff;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  flex: 0 0 5.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 0.42rem 0.95rem;
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.chipOn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.resultCount {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin: 0 0 1.4rem;
+}
+
+/* ===== Grid & cards ===== */
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+  gap: 1.4rem;
+  padding: 0;
+  margin: 0;
+}
+
+.cardItem {
+  display: flex;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 44px -18px rgb(20 24 26 / 0.22);
+  border-color: #cfd8d2;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #e9e7df;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.045);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.5rem 1.6rem 1.6rem;
+}
+
+.cardName {
+  font-size: 1.32rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 0.92rem;
+  color: var(--accent-ink);
+  font-weight: 600;
+  margin: -0.35rem 0 0;
+}
+
+.description {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0.1rem 0 0;
+}
+
+/* Specs strip */
+.specs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+  row-gap: 0.45rem;
+  margin: 0.35rem 0 0;
+  padding: 0.85rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.spec dt {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  font-weight: 700;
+  padding-top: 0.1rem;
+}
+
+.spec dd {
+  margin: 0;
+  font-size: 0.93rem;
+  font-weight: 600;
+}
+
+.specPrice dd {
+  color: var(--estimate);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Advantages */
+.advantages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.advantages li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.advantages li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.48em;
+  width: 0.58rem;
+  height: 0.32rem;
+  border-left: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.line {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.lineLabel {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.15rem;
+}
+
+/* CTA */
+.cta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent-ink);
+  text-decoration: none;
+  border-bottom: 2px solid rgb(29 92 64 / 0.3);
+  padding-bottom: 0.2rem;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.cta:hover {
+  border-color: var(--accent);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.ctaArrow {
+  transition: transform 0.25s ease;
+}
+
+.card:hover .ctaArrow {
+  transform: translateX(4px);
+}
+
+/* ===== Empty state ===== */
+.empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.resetBtn {
+  appearance: none;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.resetBtn:hover {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+/* ===== Pricing note & credits ===== */
+.pricingNote {
+  margin-top: 3.4rem;
+  padding: 1.6rem 1.8rem;
+  background: #f3f2ec;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.noteTitle {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.pricingNote p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 90ch;
+}
+
+.credits {
+  margin-top: 1.6rem;
+  font-size: 0.75rem;
+  color: #5f6864;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 720px) {
+  .filterGroup {
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .filterLabel {
+    flex: none;
+  }
+
+  .specs {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .heading {
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .image,
+  .ctaArrow,
+  .cta,
+  .chip {
+    transition: none;
+  }
+}

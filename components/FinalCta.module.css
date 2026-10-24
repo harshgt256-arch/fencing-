@@ -1,0 +1,246 @@
+/* ===== Section Shell ===== */
+.section {
+  --mint: #8ce2bd;
+  --accent: #1d5c40;
+  --accent-hover: #26714f;
+  --bg-deep: #07090b;
+  --text-muted: #9ba6a8;
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-deep);
+  color: #ededed;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Background image & restrained architectural overlay */
+.bgContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center 55%;
+  opacity: 0.16;
+  filter: saturate(0.85);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 65% 55% at 50% 40%, rgba(140, 226, 189, 0.08), transparent 75%),
+    linear-gradient(180deg, rgba(7, 9, 11, 0.98) 0%, rgba(7, 9, 11, 0.82) 45%, rgba(7, 9, 11, 0.98) 100%);
+}
+
+/* Inner container & spacing */
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: clamp(5.5rem, 11vw, 9.5rem) clamp(1.25rem, 4vw, 3rem);
+  text-align: center;
+}
+
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Introductory eyebrow badge */
+.eyebrowBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.38rem 0.95rem;
+  background: rgba(140, 226, 189, 0.08);
+  border: 1px solid rgba(140, 226, 189, 0.24);
+  border-radius: 999px;
+  margin-bottom: 1.3rem;
+}
+
+.eyebrowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--mint);
+  box-shadow: 0 0 8px var(--mint);
+}
+
+.eyebrowText {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+/* Main headline */
+.heading {
+  font-size: clamp(2.3rem, 5.2vw, 3.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 1.2rem;
+  text-wrap: balance;
+}
+
+/* Supporting copy */
+.intro {
+  font-size: clamp(1.05rem, 1.4vw, 1.18rem);
+  line-height: 1.68;
+  color: var(--text-muted);
+  margin: 0 auto 2.6rem;
+  max-width: 620px;
+  text-wrap: pretty;
+}
+
+/* Call to action buttons */
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              color 0.2s ease;
+  user-select: none;
+}
+
+.primaryBtn {
+  background-color: var(--accent);
+  color: #ffffff;
+  border: 1px solid rgba(140, 226, 189, 0.28);
+  box-shadow: 0 8px 24px -6px rgba(29, 92, 64, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.primaryBtn:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -6px rgba(29, 92, 64, 0.65), 0 4px 10px rgba(0, 0, 0, 0.5);
+  border-color: rgba(140, 226, 189, 0.45);
+}
+
+.primaryBtn:active {
+  transform: translateY(0);
+}
+
+.btnIcon {
+  transition: transform 0.2s ease;
+}
+
+.primaryBtn:hover .btnIcon {
+  transform: translateX(3px);
+}
+
+.secondaryBtn {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #ededed;
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(8px);
+}
+
+.secondaryBtn:hover {
+  border-color: var(--mint);
+  color: #ffffff;
+  background-color: rgba(140, 226, 189, 0.08);
+  transform: translateY(-2px);
+}
+
+.secondaryBtn:active {
+  transform: translateY(0);
+}
+
+.primaryBtn:focus-visible,
+.secondaryBtn:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 4px;
+}
+
+/* Reassurance trust points list */
+.reassuranceList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem 2rem;
+  list-style: none;
+  margin: 3.2rem 0 0;
+  padding: 0;
+}
+
+.reassuranceItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.checkIcon {
+  color: var(--mint);
+  flex-shrink: 0;
+}
+
+/* ===== Responsive Breakpoints ===== */
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row;
+    gap: 1.1rem;
+  }
+}
+
+/* On mobile: full width prominent tap targets */
+@media (max-width: 639px) {
+  .actions {
+    width: 100%;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+    min-height: 52px;
+    padding: 0.95rem 1.4rem;
+  }
+
+  .reassuranceList {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 2.5rem;
+  }
+}
+
+/* Accessibility: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .primaryBtn,
+  .secondaryBtn,
+  .btnIcon {
+    transition: none !important;
+    transform: none !important;
+  }
+}
