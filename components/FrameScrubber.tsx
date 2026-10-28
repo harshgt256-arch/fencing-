@@ -8,9 +8,11 @@ import styles from "./FrameScrubber.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** Exact native frame count of the source video (verified via ffprobe: 192 @ 1920x1080). */
+/** Exact native frame count of the source video (192 frames). */
 const FRAME_COUNT = 192;
-const FRAME_DIR = "/frames/fencing-hero";
+const FRAME_DIR_DESKTOP = "/frames/fencing-hero";
+const FRAME_DIR_MOBILE = "/frames/fencing-hero-mobile";
+
 /** Pinned scroll distance (px) that drives the full image sequence on desktop. */
 const SCROLL_DISTANCE = 4000;
 /** ScrollTrigger scrub smoothing (seconds to catch up with scroll). */
@@ -19,9 +21,6 @@ const SCRUB = 0.5;
 const MAX_DPR = 2;
 const LOW_MEMORY_CONCURRENCY = 2;
 const DEFAULT_CONCURRENCY = 6;
-
-const frameSrc = (index: number): string =>
-  `${FRAME_DIR}/frame_${String(index + 1).padStart(4, "0")}.jpg`;
 
 const isLowMemoryDevice = (): boolean => {
   if (typeof navigator === "undefined") return false;
@@ -34,6 +33,9 @@ export default function FrameScrubber() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const lenisRef = useLenisScroll();
+
+  // Active directory based on viewport mode (desktop landscape vs. mobile portrait)
+  const frameDirRef = useRef(FRAME_DIR_DESKTOP);
 
   // Decoded frame cache. Images are HTMLImageElements; `ready[i]` is true once
   // the image is loaded AND decoded, so drawing never triggers a sync decode.
@@ -52,6 +54,9 @@ export default function FrameScrubber() {
   // React state only for the loading indicator (never per scroll tick).
   const [firstFrameReady, setFirstFrameReady] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
+
+  const getFrameSrc = (index: number): string =>
+    `${frameDirRef.current}/frame_${String(index + 1).padStart(4, "0")}.jpg`;
 
   // -------- Canvas sizing (devicePixelRatio aware, resize safe) --------
   useEffect(() => {
@@ -95,13 +100,15 @@ export default function FrameScrubber() {
     return () => observer.disconnect();
   }, []);
 
-  // -------- Intelligent strided preloading --------
-  // Pass 1: Stride 12 (16 keyframes) -> scrubbable across entire duration in ~1.5s
-  // Pass 2: Stride 4 (fills gaps to 48 keyframes)
-  // Pass 3: Stride 2 (fills gaps to 96 keyframes)
-  // Pass 4: Complete remaining frames
+  // -------- Intelligent strided preloading (Desktop vs Mobile Portrait) --------
   useEffect(() => {
     let disposed = false;
+    const isMobile =
+      window.innerWidth < 768 ||
+      (window.innerHeight > window.innerWidth && window.innerWidth < 1024);
+
+    frameDirRef.current = isMobile ? FRAME_DIR_MOBILE : FRAME_DIR_DESKTOP;
+
     const lowMemory = isLowMemoryDevice();
     dprCapRef.current = lowMemory ? 1 : MAX_DPR;
     const concurrency = lowMemory ? LOW_MEMORY_CONCURRENCY : DEFAULT_CONCURRENCY;
@@ -129,10 +136,10 @@ export default function FrameScrubber() {
         image.onerror = () => {
           resolve();
         };
-        image.src = frameSrc(index);
+        image.src = getFrameSrc(index);
       });
 
-    // Build strided priority order
+    // Build strided priority order: Pass 1 loads keyframes across timeline in ~1s
     const priorityQueue: number[] = [0];
     const queuedSet = new Set<number>([0]);
 
@@ -206,7 +213,6 @@ export default function FrameScrubber() {
       const images = imagesRef.current;
       const ready = readyRef.current;
       if (ready[index] && images[index]) return images[index];
-      // Fallback to nearest loaded frame
       for (let next = index - 1; next >= 0; next -= 1) {
         if (ready[next] && images[next]) return images[next];
       }
@@ -296,11 +302,9 @@ function drawFrame(
   ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, cw, ch);
 
-  // On portrait screens (phones), fit 100% full-width edge-to-edge (contain)
-  // so the entire 16:9 landscape video is visible without cropping the sides.
-  // On landscape/desktop screens (cw >= ch), fill screen with cinematic cover.
-  const isPortrait = ch > cw;
-  const scale = isPortrait ? cw / iw : Math.max(cw / iw, ch / ih);
+  // Both desktop (landscape) and mobile (portrait) images scale with Math.max to achieve
+  // immersive, full-screen bleed without black bars or letterboxing!
+  const scale = Math.max(cw / iw, ch / ih);
 
   const dw = Math.round(iw * scale);
   const dh = Math.round(ih * scale);

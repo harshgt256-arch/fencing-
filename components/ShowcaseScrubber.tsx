@@ -8,9 +8,11 @@ import styles from "./ShowcaseScrubber.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** Exact native frame count of the source showcase video (192 @ 1920x1080). */
+/** Exact native frame count of the source showcase video (192 frames). */
 const FRAME_COUNT = 192;
-const FRAME_DIR = "/frames/fencing-showcase";
+const FRAME_DIR_DESKTOP = "/frames/fencing-showcase";
+const FRAME_DIR_MOBILE = "/frames/fencing-showcase-mobile";
+
 /** Pinned scroll distance (px) on desktop. */
 const SCROLL_DISTANCE = 4000;
 /** ScrollTrigger scrub smoothing (seconds to catch up with scroll). */
@@ -19,9 +21,6 @@ const SCRUB = 0.5;
 const MAX_DPR = 2;
 const LOW_MEMORY_CONCURRENCY = 2;
 const DEFAULT_CONCURRENCY = 6;
-
-const frameSrc = (index: number): string =>
-  `${FRAME_DIR}/frame_${String(index + 1).padStart(4, "0")}.jpg`;
 
 const isLowMemoryDevice = (): boolean => {
   if (typeof navigator === "undefined") return false;
@@ -35,6 +34,8 @@ export default function ShowcaseScrubber() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const lenisRef = useLenisScroll();
+
+  const frameDirRef = useRef(FRAME_DIR_DESKTOP);
 
   // Decoded frame cache
   const imagesRef = useRef<(HTMLImageElement | null)[]>(
@@ -52,6 +53,9 @@ export default function ShowcaseScrubber() {
   const [firstFrameReady, setFirstFrameReady] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
   const [shouldPreload, setShouldPreload] = useState(false);
+
+  const getFrameSrc = (index: number): string =>
+    `${frameDirRef.current}/frame_${String(index + 1).padStart(4, "0")}.jpg`;
 
   // -------- Canvas sizing --------
   useEffect(() => {
@@ -114,11 +118,17 @@ export default function ShowcaseScrubber() {
     return () => observer.disconnect();
   }, []);
 
-  // -------- Progressive strided preloading --------
+  // -------- Progressive strided preloading (Desktop vs Mobile Portrait) --------
   useEffect(() => {
     if (!shouldPreload) return;
 
     let disposed = false;
+    const isMobile =
+      window.innerWidth < 768 ||
+      (window.innerHeight > window.innerWidth && window.innerWidth < 1024);
+
+    frameDirRef.current = isMobile ? FRAME_DIR_MOBILE : FRAME_DIR_DESKTOP;
+
     const lowMemory = isLowMemoryDevice();
     dprCapRef.current = lowMemory ? 1 : MAX_DPR;
     const concurrency = lowMemory ? LOW_MEMORY_CONCURRENCY : DEFAULT_CONCURRENCY;
@@ -146,7 +156,7 @@ export default function ShowcaseScrubber() {
         image.onerror = () => {
           resolve();
         };
-        image.src = frameSrc(index);
+        image.src = getFrameSrc(index);
       });
 
     // Build strided priority order
@@ -330,11 +340,9 @@ function drawFrame(
   ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, cw, ch);
 
-  // On portrait screens (phones), fit 100% full-width edge-to-edge (contain)
-  // so the entire 16:9 landscape video is visible without cropping the sides.
-  // On landscape/desktop screens (cw >= ch), fill screen with cinematic cover.
-  const isPortrait = ch > cw;
-  const scale = isPortrait ? cw / iw : Math.max(cw / iw, ch / ih);
+  // Both desktop (landscape) and mobile (portrait) images scale with Math.max to achieve
+  // immersive, full-screen bleed without black bars or letterboxing!
+  const scale = Math.max(cw / iw, ch / ih);
 
   const dw = Math.round(iw * scale);
   const dh = Math.round(ih * scale);
