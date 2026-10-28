@@ -60,6 +60,14 @@
   pointer-events: none;
 }
 
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
+}
+
 .divider {
   position: absolute;
   top: 0;
@@ -159,6 +167,39 @@
 }
 
 @media (max-width: 768px) {
+  .gliderContainer {
+    aspect-ratio: 9 / 16;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: block;
+  }
+
+  .label {
+    top: 1rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .labelBefore {
+    left: 1rem;
+  }
+
+  .labelAfter {
+    right: 1rem;
+  }
+
+  .handle {
+    width: 44px;
+    height: 44px;
+  }
+
   .details {
     padding: 1.25rem 1.5rem;
   }

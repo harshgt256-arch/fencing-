@@ -164,7 +164,15 @@ export default function BeforeAfterGlider() {
               alt="Residential side passageway after fence installation — completed timber wood privacy fence with concrete posts running the full length of the boundary"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1400px) 90vw, 1320px"
-              className={styles.image}
+              className={`${styles.image} ${styles.desktopOnly}`}
+              priority
+            />
+            <Image
+              src="/images/wood-fence-after-mobile.jpg"
+              alt="Residential side passageway after fence installation — completed timber wood privacy fence with concrete posts running the full length of the boundary"
+              fill
+              sizes="(max-width: 768px) 100vw, 440px"
+              className={`${styles.image} ${styles.mobileOnly}`}
               priority
             />
           </div>
@@ -180,7 +188,15 @@ export default function BeforeAfterGlider() {
               alt="Residential side passageway before fence installation — open boundary with a clear view to the neighboring property"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1400px) 90vw, 1320px"
-              className={styles.image}
+              className={`${styles.image} ${styles.desktopOnly}`}
+              priority
+            />
+            <Image
+              src="/images/wood-fence-before-mobile.jpg"
+              alt="Residential side passageway before fence installation — open boundary with a clear view to the neighboring property"
+              fill
+              sizes="(max-width: 768px) 100vw, 440px"
+              className={`${styles.image} ${styles.mobileOnly}`}
               priority
             />
           </div>
